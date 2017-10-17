@@ -7,8 +7,5 @@
     <string name="complete">Completed</string>
     <string name="addImage">Upload Image</string>
     <string name="save">Save</string>
-    <string name="delete">Delete</string>
     <string name="date">Date:</string>
-    <string name="cancel">Cancel</string>
-    <string name="deleteQuestion">Are you sure you want to delete this song?</string>
 </resources>
