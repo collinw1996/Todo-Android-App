@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import edu.towson.cosc431.collinwoodruff.todosapp.IPresenter;
 import edu.towson.cosc431.collinwoodruff.todosapp.MainController;
 import edu.towson.cosc431.collinwoodruff.todosapp.R;
 import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
@@ -18,9 +19,9 @@ import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
 
     List<Todo> todoList;
-    MainController controller;
+    IPresenter controller;
 
-    public TodoAdapter(List<Todo> todoList, MainController controller){
+    public TodoAdapter(List<Todo> todoList, IPresenter controller){
         this.todoList = todoList;
         this.controller = controller;
     }

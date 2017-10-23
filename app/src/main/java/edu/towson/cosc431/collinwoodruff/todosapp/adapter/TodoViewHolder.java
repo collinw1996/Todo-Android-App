@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.Locale;
 
+import edu.towson.cosc431.collinwoodruff.todosapp.IPresenter;
 import edu.towson.cosc431.collinwoodruff.todosapp.MainController;
 import edu.towson.cosc431.collinwoodruff.todosapp.R;
 import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
@@ -23,10 +24,10 @@ public class TodoViewHolder extends RecyclerView.ViewHolder {
     CheckBox isComplete;
     TextView date;
     Todo todo;
-    MainController controller;
+    IPresenter controller;
     LinearLayout fullSong;
 
-    public TodoViewHolder(View itemView, final MainController controller) {
+    public TodoViewHolder(View itemView, final IPresenter controller) {
         super(itemView);
         this.controller = controller;
         fullSong = (LinearLayout)itemView.findViewById(R.id.fullSong);
