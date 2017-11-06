@@ -11,5 +11,6 @@ public interface IView {
     void launchNewTodo();
     void editOrComplete(Todo todo);
     void confirmDelete(Todo todo);
-    void launchEditTodo(Todo todo);
+    void launchEditTodo(int pos);
+    void handleEditTodo(Todo todo);
 }

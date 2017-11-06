@@ -9,6 +9,13 @@
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 
+    <fragment
+        android:id="@+id/buttonFragment"
+        android:name="edu.towson.cosc431.collinwoodruff.todosapp.Buttons_Fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/buttons_fragment"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

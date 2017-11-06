@@ -8,4 +8,6 @@
     <string name="addImage">Upload Image</string>
     <string name="save">Save</string>
     <string name="date">Date:</string>
+    <string name="all">All</string>
+    <string name="active">Active</string>
 </resources>

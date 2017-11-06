@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.towson.cosc431.collinwoodruff.todosapp.IPresenter;
@@ -19,11 +20,14 @@ import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
 
     List<Todo> todoList;
+    List<Todo> filter;
     IPresenter controller;
 
     public TodoAdapter(List<Todo> todoList, IPresenter controller){
         this.todoList = todoList;
         this.controller = controller;
+        filter = new ArrayList<>();
+        filter.addAll(this.todoList);
     }
 
     @Override
@@ -36,8 +40,33 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
 
     @Override
     public void onBindViewHolder(TodoViewHolder holder, int position) {
-        Todo todo = todoList.get(position);
+        Todo todo = filter.get(position);
         holder.bindTodo(todo);
+    }
+
+    public void AllTodos(){
+        filter.clear();
+        for(Todo todo : todoList) {
+            filter.add(todo);
+        }
+    }
+
+    public void ActiveTodos(){
+        filter.clear();
+        for(Todo todo : todoList) {
+            if(!todo.isComplete()) {
+                filter.add(todo);
+            }
+        }
+    }
+
+    public void CompletedTodos(){
+        filter.clear();
+        for(Todo todo : todoList) {
+            if(todo.isComplete()) {
+                filter.add(todo);
+            }
+        }
     }
 
     @Override

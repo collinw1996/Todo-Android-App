@@ -11,12 +11,11 @@ import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 public interface IPresenter {
     void deleteTodo(Todo todo);
     void launchAddTodoActivity();
-    void launchEditTodo(Todo todo);
+    void launchEditTodo(int position);
     void handleNewTodoResult(Todo todo);
-    void handleEditTodoResult(Todo todo);
+    void handleEditTodoResult(Todo todo, int pos);
     List<Todo> getTodosFromModel();
     void addNewTodo(Todo todo);
-    void editOldTodo(Todo todo);
     void editOrComplete(Todo todo);
     void confirmDelete(Todo todo);
 }

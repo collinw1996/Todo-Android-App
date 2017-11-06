@@ -33,12 +33,9 @@ public class MainPresenter implements IPresenter{
     }
 
     @Override
-    public void handleEditTodoResult(Todo todo) {
-        editOldTodo(todo);
-    }
-
-    public void editOldTodo(Todo todo) {
-        model.editTodo(todo);
+    public void handleEditTodoResult(Todo todo, int pos) {
+        model.getTodos().set(pos,todo);
+        view.refresh();
     }
 
     @Override
@@ -63,7 +60,7 @@ public class MainPresenter implements IPresenter{
     }
 
     @Override
-    public void launchEditTodo(Todo todo) {
-        view.launchEditTodo(todo);
+    public void launchEditTodo(int pos) {
+        view.launchEditTodo(pos);
     }
 }

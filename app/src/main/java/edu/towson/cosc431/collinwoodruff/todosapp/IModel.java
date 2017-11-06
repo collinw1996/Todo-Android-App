@@ -12,5 +12,4 @@ public interface IModel {
     List<Todo> getTodos();
     void removeTodo(Todo todo);
     void addTodo(Todo todo);
-    void editTodo(Todo todo);
 }

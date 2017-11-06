@@ -19,14 +19,25 @@ public class EditTodoActivity extends AppCompatActivity implements View.OnClickL
     Button saveBtn;
     CheckBox isComplete;
     Todo todo;
+    Intent iExtras;
+    Bundle editInfo;
     boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_todo);
-        start();
         todo = new Todo();
+        start();
+        iExtras = getIntent();
+        editInfo = iExtras.getExtras();
+
+        if (editInfo != null) {
+            todo = editInfo.getParcelable("EDIT");
+            todoName.setText(todo.getTitle());
+            contentsName.setText(todo.getContents());
+            isComplete.setChecked(todo.isComplete());
+        }
     }
 
     public void start(){
@@ -34,6 +45,11 @@ public class EditTodoActivity extends AppCompatActivity implements View.OnClickL
         contentsName = (EditText)findViewById(R.id.contents);
         saveBtn = (Button)findViewById(R.id.saveBtn);
         isComplete = (CheckBox)findViewById(R.id.isComplete);
+
+        todoName.setText(todo.getTitle());
+        contentsName.setText(todo.getContents());
+        isComplete.setChecked(todo.isComplete());
+
         saveBtn.setOnClickListener(this);
         isComplete.setOnClickListener(this);
     }
@@ -42,18 +58,6 @@ public class EditTodoActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.saveBtn:
-                if(todoName.getText().toString().isEmpty()){
-                    todo.setTitle("Title");
-                }
-                else
-                    todo.setTitle(todoName.getText().toString());
-                if(contentsName.getText().toString().isEmpty()){
-                    todo.setContents("Contents");
-                }
-                else
-                    todo.setContents(contentsName.getText().toString());
-                todo.setDateCreated(new Date());
-                todo.setComplete(todo.isComplete());
                 saveTodo(todo);
                 break;
             case R.id.isComplete:
@@ -63,8 +67,19 @@ public class EditTodoActivity extends AppCompatActivity implements View.OnClickL
     }
     @Override
     public void saveTodo(Todo todo) {
+        int position = 0;
+
+        if(editInfo != null) {
+            position = editInfo.getInt("pos");
+        }
         Intent intent = new Intent();
+        todo.setContents(todoName.getText().toString());
+        todo.setContents(contentsName.getText().toString());
+        todo.setDateCreated(new Date());
+        todo.setComplete(todo.isComplete());
+
         intent.putExtra("EDIT",todo);
+        intent.putExtra("pos", position);
         setResult(RESULT_OK,intent);
         finish();
     }
