@@ -52,7 +52,7 @@ public class NewTodoActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 else
                     todo.setContents(contentsName.getText().toString());
-                todo.setDateCreated(new Date());
+                todo.setDateCreated(System.currentTimeMillis());
                 todo.setComplete(todo.isComplete());
                 newTodo(todo);
                 break;

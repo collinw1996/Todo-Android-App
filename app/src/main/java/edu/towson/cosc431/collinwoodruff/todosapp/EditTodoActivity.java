@@ -75,7 +75,7 @@ public class EditTodoActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = new Intent();
         todo.setContents(todoName.getText().toString());
         todo.setContents(contentsName.getText().toString());
-        todo.setDateCreated(new Date());
+        todo.setDateCreated(System.currentTimeMillis());
         todo.setComplete(todo.isComplete());
 
         intent.putExtra("EDIT",todo);

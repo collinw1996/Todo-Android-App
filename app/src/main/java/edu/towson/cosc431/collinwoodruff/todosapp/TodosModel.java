@@ -1,9 +1,8 @@
 package edu.towson.cosc431.collinwoodruff.todosapp;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import edu.towson.cosc431.collinwoodruff.todosapp.database.IDataSource;
 import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 
 /**
@@ -11,40 +10,53 @@ import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
  */
 
 public class TodosModel implements IModel{
-    List<Todo> todos;
-    int position;
+    private final IDataSource dataSource;
 
-    public TodosModel() {
-        todos = new ArrayList<>();
-        makeSongs();
+    public TodosModel(IDataSource ds) {
+        dataSource = ds;
+        seedTodos();
     }
 
-    private void makeSongs() {
-        todos.add(new Todo("Trash", "Today", true, new Date("07/18/2017")));
-        todos.add(new Todo("Dishes", "Tomorrow", false, new Date("10/11/2017")));
-        todos.add(new Todo("Run", "12 Minutes", false, new Date("10/08/2017")));
-        todos.add(new Todo("Walk Dog", "1 hour", true, new Date("06/18/2017")));
-        todos.add(new Todo("Feed Dog", "1/3 Cup", false, new Date("10/11/2017")));
-        todos.add(new Todo("Trash", "Today", true, new Date("07/18/2017")));
-        todos.add(new Todo("Dishes", "Tomorrow", false, new Date("10/11/2017")));
-        todos.add(new Todo("Run", "12 Minutes", false, new Date("10/08/2017")));
-        todos.add(new Todo("Walk Dog", "1 hour", true, new Date("06/18/2017")));
-        todos.add(new Todo("Feed Dog", "1/3 Cup", false, new Date("10/11/2017")));
+    public void seedTodos(){
+        dataSource.addTodo(new Todo("Trash", "Take out", System.currentTimeMillis(), false));
+        dataSource.addTodo(new Todo("Dog", "Walk dog", System.currentTimeMillis(), false));
+        dataSource.addTodo(new Todo("Dishes", "Wash dishes", System.currentTimeMillis(),true));
+        dataSource.addTodo(new Todo("Soccer", "Soccer practice", System.currentTimeMillis(), true));
+        dataSource.addTodo(new Todo("Website", "Finish website", System.currentTimeMillis(), false));
+        dataSource.addTodo(new Todo("Internship", "Apply!!!", System.currentTimeMillis(), true));
+        dataSource.addTodo(new Todo("Job", "Remeber Check", System.currentTimeMillis(), false));
+        dataSource.addTodo(new Todo("Cat", "Feed cat", System.currentTimeMillis(), false));
+        dataSource.addTodo(new Todo("Kitchen", "Clean floor", System.currentTimeMillis(), true));
+        dataSource.addTodo(new Todo("Car", "Oil change", System.currentTimeMillis(), true));
     }
 
     @Override
     public List<Todo> getTodos() {
-        return todos;
+        return dataSource.getAllTodos();
+    }
+
+    @Override
+    public List<Todo> getActiveTodos() {
+        return dataSource.getActiveTodos();
+    }
+
+    @Override
+    public List<Todo> getCompletedTodos() {
+        return dataSource.getCompletedTodos();
     }
 
     @Override
     public void removeTodo(Todo todo) {
-        todos.remove(todo);
+        dataSource.deleteTodo(todo);
     }
 
     @Override
     public void addTodo(Todo todo) {
-        todos.add(todo);
+        dataSource.addTodo(todo);
     }
 
+    @Override
+    public void editTodo(Todo todo) {
+        dataSource.updateTodo(todo);
+    }
 }

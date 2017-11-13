@@ -28,14 +28,23 @@ public class MainPresenter implements IPresenter{
     }
 
     @Override
+    public List<Todo> getActiveTodosFromModel() {
+        return model.getActiveTodos();
+    }
+
+    @Override
+    public List<Todo> getCompletedTodosFromModel() {
+        return model.getCompletedTodos();
+    }
+
+    @Override
     public void addNewTodo(Todo todo) {
         model.addTodo(todo);
     }
 
     @Override
-    public void handleEditTodoResult(Todo todo, int pos) {
-        model.getTodos().set(pos,todo);
-        view.refresh();
+    public void handleEditTodoResult(Todo todo) {
+        model.editTodo(todo);
     }
 
     @Override
@@ -60,7 +69,7 @@ public class MainPresenter implements IPresenter{
     }
 
     @Override
-    public void launchEditTodo(int pos) {
-        view.launchEditTodo(pos);
+    public void launchEditTodo(Todo todo) {
+        view.launchEditTodo(todo);
     }
 }

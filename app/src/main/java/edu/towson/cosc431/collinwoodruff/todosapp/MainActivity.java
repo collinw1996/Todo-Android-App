@@ -13,6 +13,8 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 import edu.towson.cosc431.collinwoodruff.todosapp.adapter.TodoAdapter;
+import edu.towson.cosc431.collinwoodruff.todosapp.database.IDataSource;
+import edu.towson.cosc431.collinwoodruff.todosapp.database.TodoDataSource;
 import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 
 public class MainActivity extends AppCompatActivity implements ButtonController, View.OnClickListener, IView {
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
     IPresenter presenter;
     ArrayList<Todo> todo;
     int position;
+    Todo getTodo;
+    IDataSource ds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            presenter = new MainPresenter(this, new TodosModel());
+            presenter = new MainPresenter(this, new TodosModel(ds));
             bindView();
         } else {
             todo = savedInstanceState.getParcelableArrayList(STATE);
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
     } // Save Instance state with key STATE
 
     private void bindView() {
+        presenter = new MainPresenter(this, new TodosModel(TodoDataSource.getInstance(this)));
         addBtn = (Button) findViewById(R.id.newTodo);
         addBtn.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -75,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Todo getTodo;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case ADD_TODO_REQUEST_CODE:
@@ -85,12 +89,14 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
                     Bundle bundle = data.getExtras();
                     getTodo = bundle.getParcelable("TODO");
                     presenter.handleNewTodoResult(getTodo);
+                    refresh();
                     break;
                 case EDIT_TODO_REQUEST_CODE:
                     Bundle eBundle = data.getExtras();
                     getTodo = eBundle.getParcelable("EDIT");
                     position = eBundle.getInt("pos");
-                    presenter.handleEditTodoResult(getTodo, position);
+                    presenter.handleEditTodoResult(getTodo);
+                    refresh();
                     break;
             }
         }
@@ -98,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
 
     @Override
     public void refresh() {
+        recyclerView.setAdapter(new TodoAdapter(presenter.getTodosFromModel(), presenter));
         adapter.notifyDataSetChanged();
     }
 
@@ -108,34 +115,29 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
     }
 
     @Override
-    public void launchEditTodo(int pos) {
+    public void launchEditTodo(Todo todo) {
         Intent intent = new Intent(this, EditTodoActivity.class);
-        intent.putExtra("EDIT", presenter.getTodosFromModel().get(pos));
-        intent.putExtra("pos",pos);
+        intent.putExtra("EDIT", todo);
+        intent.putExtra("pos", presenter.getTodosFromModel().indexOf(todo));
         startActivityForResult(intent, EDIT_TODO_REQUEST_CODE);
     }
 
     @Override
-    public void handleEditTodo(Todo todo) {
-        presenter.handleEditTodoResult(todo,position);
-    }
-
-    @Override
     public void completedTodos() {
-        adapter.CompletedTodos();
-        refresh();
+        recyclerView.setAdapter(new TodoAdapter(presenter.getCompletedTodosFromModel(), presenter));
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void activeTodos() {
-        adapter.ActiveTodos();
-        refresh();
+        recyclerView.setAdapter(new TodoAdapter(presenter.getActiveTodosFromModel(), presenter));
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void allTodos() {
-        adapter.AllTodos();
-        refresh();
+        recyclerView.setAdapter(new TodoAdapter(presenter.getTodosFromModel(), presenter));
+        adapter.notifyDataSetChanged();
     }
 
     public void confirmDelete(final Todo todo) {
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
                 })
                 .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.presenter.launchEditTodo(position);
+                        MainActivity.this.presenter.launchEditTodo(todo);
                     }
                 });
         // create alert dialog
