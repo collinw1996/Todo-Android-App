@@ -7,10 +7,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import edu.towson.cosc431.collinwoodruff.todosapp.IPresenter;
-import edu.towson.cosc431.collinwoodruff.todosapp.MainController;
 import edu.towson.cosc431.collinwoodruff.todosapp.R;
 import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 
@@ -26,6 +26,7 @@ public class TodoViewHolder extends RecyclerView.ViewHolder {
     Todo todo;
     IPresenter controller;
     LinearLayout fullSong;
+    ArrayList<Todo> todoArrayList;
 
     public TodoViewHolder(View itemView, final IPresenter controller) {
         super(itemView);

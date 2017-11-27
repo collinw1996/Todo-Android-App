@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.towson.cosc431.collinwoodruff.todosapp.IPresenter;
-import edu.towson.cosc431.collinwoodruff.todosapp.MainController;
 import edu.towson.cosc431.collinwoodruff.todosapp.R;
 import edu.towson.cosc431.collinwoodruff.todosapp.model.Todo;
 

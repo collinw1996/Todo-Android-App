@@ -2,6 +2,7 @@ package edu.towson.cosc431.collinwoodruff.todosapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -83,9 +84,6 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case ADD_TODO_REQUEST_CODE:
-                    /*todo = (Todo) data.getParcelableExtra("TODO");
-                    presenter.handleNewTodoResult(todo);
-                    refresh();*/
                     Bundle bundle = data.getExtras();
                     getTodo = bundle.getParcelable("TODO");
                     presenter.handleNewTodoResult(getTodo);
