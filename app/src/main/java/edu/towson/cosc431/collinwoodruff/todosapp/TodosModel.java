@@ -14,7 +14,7 @@ public class TodosModel implements IModel{
 
     public TodosModel(IDataSource ds) {
         dataSource = ds;
-        seedTodos();
+        //seedTodos();
     }
 
     public void seedTodos(){

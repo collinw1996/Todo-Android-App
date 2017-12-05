@@ -1,7 +1,12 @@
 package edu.towson.cosc431.collinwoodruff.todosapp;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +40,16 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
     IDataSource ds;
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scheduler.schedule(new JobInfo.Builder (1, new ComponentName(this, AppClosedJob.class))
+                    .build());
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -66,6 +81,11 @@ public class MainActivity extends AppCompatActivity implements ButtonController,
         recyclerView.setAdapter(adapter);
         buttonFragment = (Buttons_Fragment)getSupportFragmentManager()
                 .findFragmentById(R.id.buttonFragment);
+        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scheduler.schedule(new JobInfo.Builder (2, new ComponentName(this, AppOpenJob.class))
+                    .build());
+        }*/
     }
 
     @Override
