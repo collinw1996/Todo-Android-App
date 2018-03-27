@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">TodosApp_Collinwoodruff</string>
+    <string name="app_name">TodosApp_CollinWoodruff</string>
+    <string name="title">Title:</string>
+    <string name="text">Text:</string>
+    <string name="contents">Contents:</string>
+    <string name="newTodo">New Todo</string>
+    <string name="complete">Completed</string>
+    <string name="addImage">Upload Image</string>
+    <string name="save">Save</string>
+    <string name="date">Date:</string>
+    <string name="all">All</string>
+    <string name="active">Active</string>
 </resources>
